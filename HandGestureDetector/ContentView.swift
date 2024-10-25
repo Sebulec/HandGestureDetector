@@ -8,7 +8,10 @@
 import SwiftUI
 
 struct ContentView: View {
+    private let sessionHandler = SessionHandler()
+    
     var body: some View {
-        ARViewContainer()
+        ARViewContainer(sessionHandler: sessionHandler)
+            .edgesIgnoringSafeArea(.all)
     }
 }
