@@ -11,6 +11,7 @@ struct ARViewContainer: UIViewRepresentable {
         
         arView.session.delegate = sessionHandler
         sessionHandler.createCircleForFingers(in: arView)
+        sessionHandler.arView = arView
         
         return arView
     }

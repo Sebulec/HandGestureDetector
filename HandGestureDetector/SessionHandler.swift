@@ -3,6 +3,8 @@ import SwiftUI
 import Vision
 
 final class SessionHandler: NSObject, ObservableObject, ARSessionDelegate {
+    weak var arView: ARSCNView?
+    
     private var thumbTipView: UIView!
     private var indexTipView: UIView!
     
@@ -44,6 +46,7 @@ final class SessionHandler: NSObject, ObservableObject, ARSessionDelegate {
             let jointPoints = try observation.recognizedPoints(.all)
             DispatchQueue.main.async { [weak self] in
                 self?.updateFingerTipPositions(jointPoints)
+                self?.verifyIfHandIsPinching()
             }
         } else {
             thumbTipView.isHidden = true
@@ -69,5 +72,22 @@ final class SessionHandler: NSObject, ObservableObject, ARSessionDelegate {
         
         view.center = screenFingerTipPoint
         view.isHidden = false
+    }
+    
+    private func verifyIfHandIsPinching() {
+        if thumbTipView.center.distance(to: indexTipView.center) > 30 {
+            thumbTipView.backgroundColor = .green
+            indexTipView.backgroundColor = .green
+        } else {
+            thumbTipView.backgroundColor = .black
+            indexTipView.backgroundColor = .black
+            performAttachMesh()
+        }
+    }
+    
+    private func performAttachMesh() {
+        guard let arView else { return }
+        
+        // todo: Attach mesh to scene
     }
 }

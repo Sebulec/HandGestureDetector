@@ -1,5 +1,24 @@
 
 import Vision
+// MARK: - CGPoint Extensions
+extension CGPoint {
+    /// Calculates the Euclidean distance between two points
+    /// - Parameter to: The target point to calculate distance to
+    /// - Returns: The distance between the points
+    func distance(to point: CGPoint) -> CGFloat {
+        sqrt(distanceSquared(to: point))
+    }
+    
+    /// Calculates the squared distance between two points (more performant when exact distance isn't needed)
+    /// - Parameter to: The target point to calculate squared distance to
+    /// - Returns: The squared distance between the points
+    func distanceSquared(to point: CGPoint) -> CGFloat {
+        let deltaX = x - point.x
+        let deltaY = y - point.y
+        
+        return deltaX * deltaX + deltaY * deltaY
+    }
+}
 
 // MARK: - Vision Coordinate Conversion
 /// Converts a point from Vision coordinate space (normalized 0-1) to screen coordinate space
