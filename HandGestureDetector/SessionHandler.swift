@@ -9,6 +9,7 @@ final class SessionHandler: NSObject, ObservableObject, ARSessionDelegate {
     private var indexTipView: UIView!
     
     private var handPoseRequest = VNDetectHumanHandPoseRequest()
+    private let operationManager = OperationManager()
     
     func createCircleForFingers(in view: UIView) {
         thumbTipView = createFingerView(in: view)
@@ -88,7 +89,9 @@ final class SessionHandler: NSObject, ObservableObject, ARSessionDelegate {
     private func performAttachMesh() {
         guard let arView else { return }
         
-        attachMeshToScene(in: arView)
+        operationManager.performOperation { [weak self] in
+            self?.attachMeshToScene(in: arView)
+        }
     }
     
     private func attachMeshToScene(in arView: ARSCNView) {
